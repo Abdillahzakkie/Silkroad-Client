@@ -1,0 +1,5 @@
+.filter-section {
+    grid-template-rows: 300px;
+    background: red;
+    width: 100vw;
+}

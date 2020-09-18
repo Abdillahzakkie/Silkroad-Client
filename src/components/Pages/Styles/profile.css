@@ -1,0 +1,42 @@
+.profile { border-bottom: 2px solid var(--white); }
+
+/* Start Navigation buttons */
+.profile .btns {
+    grid-template-columns: repeat(3, 1fr);
+    place-self: center;
+    width: 40%;
+    margin: 30vh auto 0;
+    grid-gap: 0 2rem;
+}
+.profile .btns .btn {
+    padding: .75rem 1rem;
+    background: transparent;
+    border: .05rem solid var(--mainWhite);
+    color: var(--mainWhite);
+    transition: var(--mainTransition);
+}
+.profile .btns .btn:hover {
+    background: var(--mainGreen);
+    border: .05rem solid var(--mainGreen);
+}
+
+/* End Profile Navigation buttons */
+
+/* Profile Container */
+/* .profile .container */
+
+@media (max-width: 1000px) {
+    .profile .btns { width: 60%; }
+    @media (max-width: 767px) {
+        .profile .btns { 
+            margin: 35vh auto 0;
+            padding: 0 1rem;
+            width: 100%;
+            grid-gap: 0 .75rem;
+        }
+    
+        .profile .btns .btn {
+            padding: .6rem;
+        }
+    }
+}

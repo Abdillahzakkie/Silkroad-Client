@@ -1,0 +1,61 @@
+.my_account {
+    grid-template-columns: repeat(12, 1fr);
+    width: 100vw;
+    height: 85vh;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+}
+
+.my_account .sub-container,
+.my_account .main-container {
+    width: 100%;
+}
+.my_account .main-container { 
+    grid-column: 4/13; 
+}
+
+.my_account .sub-container {
+    grid-column: 1/4;
+    background: var(--mainWhite);
+    padding: 1rem;
+}
+
+.my_account .sub-container .user-detail,
+.my_account .sub-container .user-detail .info,
+.my_account .sub-container .list-item {
+    margin: 0;
+}
+
+.my_account .sub-container .user-detail {
+    grid-template-columns: repeat(4, 1fr);
+    height: 50px;
+    grid-gap: 0 1rem;
+}
+
+.my_account .sub-container .user-detail .image { grid-column: 1; }
+.my_account .sub-container .user-detail .image img {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+}
+
+.my_account .sub-container .user-detail .info { padding: .5rem; }
+.my_account .sub-container .user-detail .info h3 { 
+    text-transform: capitalize; 
+    letter-spacing: var(--mainSpacing);
+}
+.my_account .sub-container .newProductBtn { margin: 2rem .5rem; }
+
+.my_account .sub-container .newProductBtn button {
+    height: 50px;
+    width: 100%;
+    padding: 1rem 0;
+    background: var(--mainGreen);
+    color: var(--white);
+    letter-spacing: var(--mainSpacing);
+}
+
+.my_account .sub-container .list-item {
+    margin: 0.5rem;
+    grid-gap: 1rem 0;
+    cursor: pointer;
+}
