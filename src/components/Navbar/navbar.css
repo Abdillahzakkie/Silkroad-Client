@@ -28,7 +28,7 @@
 .navbar .nav-list ul a {
     padding: 0 .5rem;
     letter-spacing: var(--mainSpacing);
-    color: var(--white);
+    /* color: var(--white); */
 }
 /* Nav toggle */
 .navbar .toggle { display: none; }

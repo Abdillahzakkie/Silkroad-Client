@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { ErrorBoundary } from '../ErrorBoundary';
 import { Loading } from "../Loading";
-import "./card.css";
+import { CardContainer } from "./card.styled.js";
 
 export function Card({cardItem}) {
     if(!cardItem) return <Loading />
@@ -12,7 +12,7 @@ export function Card({cardItem}) {
             <div key={item.id} className="center card">
                 <img src={item.images[0]} alt={item.name} />
                 <h2>
-                    {/* maximum characters 20 words */}
+                    {/* maximum characters 20 characters */}
                     {item.name}
                 </h2>
                 <Link to={`/products/${item.id}`}>
@@ -22,6 +22,6 @@ export function Card({cardItem}) {
         )
     });
     
-    return <div className="center card-list">{filteredProjects}</div>
+    return <CardContainer className="center">{filteredProjects}</CardContainer>
 }
 export default ErrorBoundary(Card)

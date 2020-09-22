@@ -7,7 +7,7 @@ import { NavbarContainer } from '../BackgroundStyle'
 import user from '../../assets/user_icon/male.jpg';
 import './navbar.css';
 
-export function Navbar() {
+export function Navbar({ theme }) {
     const [navOpen, setNavOpen] = useState(false);
 
     const web3Consumer = useContext(web3Context);
@@ -35,7 +35,7 @@ export function Navbar() {
     });
 
     return (
-        <NavbarContainer className='center navbar'>
+        <NavbarContainer className='center navbar' theme={theme}>
             <div className="center nav-brand">
                 <Link to='/'>
                     {/* <img src={logo} alt="Edumark"/> */}
@@ -51,7 +51,7 @@ export function Navbar() {
                 <Link to={isLoggedIn ? '/my_account' : '/login'} className='center profile-picture'>
                     <img 
                         src={isLoggedIn ? userData.image : user} 
-                        alt="" 
+                        alt="user" 
                         className={isLoggedIn ? 'online': 'offline'}
                     />
                 </Link>

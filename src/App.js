@@ -29,25 +29,25 @@ export function App() {
   if(isLoggedIn) theme = userData.encoded.preference.theme;
   return (
     <AppContainer theme={theme}>
-      <Navbar />
+      <Navbar theme={theme} />
       <Switch>
         <Route exact path='/' component={Home} />
         <Route exact path='/about' component={About} />
         <Route exact path='/blog' component={Blog} />
         <Route exact path='/products' component={Product} />
         <Route exact path='/products/auth/new' component={CreateNewProduct} />
-
-        {/* <Route exact path='/products/auth/new' render={() => isLoggedIn ? <CreateNewProduct /> : <Redirect to='/login' /> } /> */}
         <Route exact path='/products/:id' component={SingleProduct} />
-        {/* <Route exact path='/my_account' component={Profile} /> */}
-        <Route exact path='/my_account' render={() => isLoggedIn ? <Profile /> : <Redirect to='/login' /> } />
-        <Route exact path='/contact' render={() => isLoggedIn ? <Contact /> : <Redirect to='/login' /> } />
+        <Route exact 
+          path='/my_account' 
+          render={() => isLoggedIn ? <Profile /> : <Redirect to='/login' /> } 
+        />
+        <Route exact path='/contact' component={Contact} />
         <Route exact path='/login' component={Login} />
         <Route exact path='/register' component={Register} />
-        <Route path='' component={Error} />
+        <Route path='*' component={Error} />
       </Switch>
       <ScrollTop />
-      <Footer />
+      <Footer theme={theme} />
     </AppContainer>
   );  
 }

@@ -6,7 +6,7 @@ import { Banner } from "../Banner";
 import { BackgroundStyle } from "../BackgroundStyle";
 import { ProductDetail } from "../Products/ProductDetail/ProductDetail";
 import { ProductInfo } from "../Products/ProductInfo/ProductInfo";
-import "./Styles/singleProduct.css";
+import { SingleProductContainer } from "./Styles/singleProduct.styled";
 
 
 function SingleProduct({ match }) {
@@ -47,7 +47,7 @@ function SingleProduct({ match }) {
     // const extraListItem = extras.map((item, i) => <li key={i}>- {item}</li>);
 
     return (
-        <div className='single-product'>
+        <SingleProductContainer>
             <BackgroundStyle className='center' background={background} >
                 <Banner 
                     title={name} 
@@ -72,7 +72,7 @@ function SingleProduct({ match }) {
                 <h3>extras</h3>
                 <ul>{extraListItem}</ul>
             </section> */}
-        </div>
+        </SingleProductContainer>
     )
 }
 export default ErrorBoundary(SingleProduct)

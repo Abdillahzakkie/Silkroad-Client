@@ -3,10 +3,10 @@ import { Link, withRouter } from "react-router-dom";
 import { web3Context } from "../Context";
 import { helperContext } from "../Context/helper";
 import { ErrorBoundary } from "../ErrorBoundary";
-import { FormContainer } from "../BackgroundStyle";
+import { FormContainer } from "./Styles/form.styled";
 import { handleFileUpload } from "../Helper/handleFileUpload";
 import { ipfs } from "../IPFS_config/ipfs.config";
-import './Styles/form.css';
+
 
 export function CreateNewProduct({ history }) {
     const [productName, setProductName] =  useState('');
@@ -69,7 +69,7 @@ export function CreateNewProduct({ history }) {
     }
 
     return (
-        <FormContainer className='center form-container'>
+        <FormContainer className='center'>
             <form className="center form-group" onSubmit={handleSubmit}>
                 <div className="brand">
                     <h2 className="center">Create new product</h2>

@@ -39,6 +39,8 @@ class Web3Provider extends Component {
         } else {
             window.alert("Non-Ethereum browser detected. You should consider trying Metamask")
         }
+        // window.web3 = new Web3('http://127.0.0.1:7545')
+        // console.log(window.web3)
     }
 
     // load blockchain data
@@ -52,13 +54,21 @@ class Web3Provider extends Component {
         const user = accounts[0];
 
         // Get product count from smart contract
-        const productCount = await contract.methods.getProductCount().call();
+        const productCount = await contract.methods.productCount().call();
 
         // Load all products from smart contract
         const products = await this.loadAllProducts(contract, web3, productCount);
 
         // Get all featured products
         const featuredProducts = this.featuredProducts(products);
+
+        let isUserLoggedIn = localStorage.getItem('isLoggedIn');
+        isUserLoggedIn = JSON.parse(isUserLoggedIn);
+        if(isUserLoggedIn) {
+            let userData = localStorage.getItem('userData');
+            userData = JSON.parse(userData);
+            userData !== null && this.setState({ isLoggedIn: true, userData });
+        }
 
         this.setState({ 
             loading: false,
@@ -161,12 +171,12 @@ class Web3Provider extends Component {
         const currentValue = e.currentTarget.value;
 
         // update 
-        if (currentValue === 'all') 
+        if (currentValue === 'all') {
             return this.setState({ 
                 selectValue: currentValue, 
                 sortedProducts: products 
             });
-         else {
+        } else {
             const tempItem = products.filter(item => item.type === currentValue);
             this.setState({selectValue: currentValue, sortedProducts: tempItem});
         }

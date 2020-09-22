@@ -3,8 +3,7 @@ import { Link, withRouter } from "react-router-dom";
 import { web3Context } from "../Context";
 import { helperContext } from "../Context/helper";
 import { ErrorBoundary } from "../ErrorBoundary";
-import { FormContainer } from "../BackgroundStyle";
-import './Styles/form.css';
+import { FormContainer } from "./Styles/form.styled";
 
 export function Login({ history }) {
     const [password, setPassword] = useState('');
@@ -19,19 +18,13 @@ export function Login({ history }) {
        (async () => {
             try {
                 if(loading) return;
-                
+                if(isLoggedIn) history.push('/my_account');
                 let response = await getUserData();
                 response = response._hashID;
                 setLink(() => response);
-                if(isLoggedIn) console.log(isLoggedIn);
-
-            } catch (error) { 
-                // console.log(error.message)
-                console.log('User does not exit')
-            }
+            } catch (error) { console.log('User does not exit') }
        })();
-
-    }, [loading, getUserData, isLoggedIn]);
+    }, [loading, getUserData, isLoggedIn, history]);
 
     const handleSubmit = async e => {
         e.preventDefault();
@@ -54,16 +47,18 @@ export function Login({ history }) {
             } catch (error) {
                 throw new Error('Invalid password')
             }
+            let userData = {...data, encoded: decodedUserData};
+            login(userData);
+            localStorage.setItem('isLoggedIn', JSON.stringify(true))
+            localStorage.setItem('userData', JSON.stringify(userData));
 
-            login({...data, encoded: decodedUserData});
-            // console.log({...data, encoded: decodedUserData});
             history.push('/my_account');
             
         } catch (error) { console.log(error) }
     }
 
     return (
-        <FormContainer className='center form-container'>
+        <FormContainer className='center'>
             <form className="center form-group" onSubmit={handleSubmit}>
                 <div className="brand">
                     <h2 className="center">Welcome back General</h2>

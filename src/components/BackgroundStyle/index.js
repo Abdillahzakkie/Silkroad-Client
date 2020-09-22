@@ -1,6 +1,5 @@
 import styled from 'styled-components';
 import defaultBcg from '../../assets/blog/blog-home-banner.jpg';
-import defaultFormBackground from '../../assets/blog/blog-home-banner.jpg';
 
 
 export const BackgroundStyle = styled.div`
@@ -24,51 +23,24 @@ export const BackgroundStyle = styled.div`
 
 export const AppContainer = styled.div`
     overflow: hidden; 
-    background-color: ${props => props.theme === 'dark' ? 'var(--darkGrey)' : 'var(--white)'}
+    background-color: ${props => props.theme === 'dark' ? 'var(--lightGrey)' : 'var(--white)'}
 `
 
 export const NavbarContainer = styled.div`
     grid-template-columns: repeat(12, 1fr);
-    // background: linear-gradient(to left, #6610f2,#6F42B7);
-    color: var(--white);
-    background: var(--darkGrey);
-    // color: var(--darkGrey);
+    background-color: ${props => props.theme === 'dark' ? 'var(--darkGrey)' : 'var(--mainWhite)'};
+    color: ${props => props.theme !== 'dark' ? 'var(--darkGrey)' : 'var(--white)'};
     width: 100vw;
     height: auto;
     padding: 1.5em 1rem;
     z-index: 1;
 
+    & .nav-list ul a,
+    & .toggle {
+        color: ${props => props.theme === 'dark' && 'var(--white)'};
+    }
+
     @media (max-width: 991px) {
         & { padding: 0; }
-    }
-`
-
-export const HeaderContainer = styled.div`
-    /* grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); */
-    grid-template-columns: repeat(12, 1fr);
-    margin: 0 auto;
-    padding: 1.5rem 3rem;
-    width: 100vw;
-    background-color: ${props => props.theme === 'dark' ? 'var(--darkGrey)' : 'var(--mainWhite)'};
-    color: ${props => props.theme === 'dark' ? 'var(--mainWhite)' : 'var(--darkGrey)'};
-    border: ${props => props.theme === 'dark' ? '1px solid var(--mainWhite)' : 'none'};
-    place-items: start;
-    text-transform: capitalize;
-    grid-gap: 1rem 1.5rem;
-`
-
-export const FormContainer = styled.div`
-    background: linear-gradient(to right, rgba(0,0,0,.5), rgba(0,0,0,.5)),
-        url(${props => props.background ? props.background : defaultFormBackground}) center/cover no-repeat;
-    width: 100vw;
-`
-
-export const AboutContainer = styled.div`
-    background-color: ${props => props.theme === 'dark' ? 'var(--darkGrey)' : 'var(--mainWhite)'};
-    color: ${props => props.theme === 'dark' ? 'var(--white)' : 'inherit'};
-    border-bottom: 2px solid var(--white);
-    & .form-group {
-        padding: 2rem 0;
-        background: inherit;
     }
 `

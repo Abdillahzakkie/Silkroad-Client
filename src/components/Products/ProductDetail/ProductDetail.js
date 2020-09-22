@@ -1,10 +1,9 @@
 import React from 'react';
-import { ProductSection } from "../../BackgroundStyle/product";
-import "../products.css";
+import { ProductSection } from "../product.styled";
 
 export function ProductDetail({ description, theme }) {
     return (
-        <ProductSection className='product-section' theme={theme}>
+        <ProductSection className='product-detail' theme={theme}>
             <h2>details</h2>
             <p>{description}</p>
         </ProductSection>

@@ -8,6 +8,7 @@
     "@testing-library/user-event": "^7.2.1",
     "bcryptjs": "^2.4.3",
     "crypto-js": "^4.0.0",
+    "image-conversion": "^2.1.1",
     "ipfs-http-client": "^46.0.1",
     "newsapi": "^2.4.1",
     "react": "^16.13.1",

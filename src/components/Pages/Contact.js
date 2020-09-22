@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
+import { FaBehance } from 'react-icons/fa';
 import { isEmail } from "validator";
 import { ErrorBoundary } from "../ErrorBoundary";
 import { ipfs } from "../IPFS_config/ipfs.config";
-import './Styles/contact.css';
+import { ContactContainer } from './Styles/contact.styled.js';
 
 export function Contract() {
     const [subject, setSubject] = useState('');
@@ -28,10 +29,49 @@ export function Contract() {
     }
 
     return (
-        <div className="center about">
+        <ContactContainer className='center contact'>
+            <div className="center my desc">
+                {/* Address */}
+                <div className="center container">
+                    <div className="center icon-container">
+                        <FaBehance className='icon' />
+                    </div>
+                    <div className="center">
+                        <h2>binghamton, new york</h2>
+                        <small>
+                            4343 hinkle deegan lake road
+                        </small>
+                    </div>
+                </div>
+                {/* Telephone */}
+                <div className="center container">
+                    <div className="center icon-container">
+                        <FaBehance className='icon' />
+                    </div>
+                    <div className="center">
+                        <h2>+2349055092611</h2>
+                        <small>
+                            Mon to Fri 8am to 6 pm
+                        </small>
+                    </div>
+                </div>
+                {/* Email */}
+                <div className="center container special">
+                    <div className="center icon-container">
+                        <FaBehance className='icon' />
+                    </div>
+                    <div className="center">
+                        <h2>zakariyyaopeyemi@gmail.com</h2>
+                        <small>
+                            Send us your query anytime!
+                        </small>
+                    </div>
+                </div>
+            </div>
+
             <form className="center form-group" onSubmit={handleSubmit}>
                 <div className="center">
-                    <h1>Get in touch</h1>
+                    <h2>Send us a message</h2>
                 </div>
                 <div className="center">
                     <input 
@@ -68,10 +108,7 @@ export function Contract() {
                     <button type='submit' className='mainSpacing btn'>Send</button>
                 </div>
             </form>
-            <div className="center container-sub">
-
-            </div>
-        </div>
+        </ContactContainer>
     )
 }
 

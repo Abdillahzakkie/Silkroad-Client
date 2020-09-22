@@ -1,10 +1,10 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import './banner.css';
+import { BannerContainer } from "./banner.styled";
 
 export function Banner({ title, subtitle, btnText, to }) {
     return (
-        <div className='center banner'>
+        <BannerContainer className='center'>
             <div className="center wrapper">
                 <Link to={to ? to : '/'} className='name'>
                     {
@@ -25,6 +25,6 @@ export function Banner({ title, subtitle, btnText, to }) {
                     <Link to={to ? to : '/'}>{btnText}</Link>
                 </button>
             </div>
-        </div>
+        </BannerContainer>
     )
 }

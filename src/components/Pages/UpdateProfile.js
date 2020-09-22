@@ -1,6 +1,6 @@
 import React from 'react'
 
-function ProfileSetting() {
+function UpdateProfile() {
     return (
         <div className='center'>
             
@@ -8,4 +8,4 @@ function ProfileSetting() {
     )
 }
 
-export default ProfileSetting
+export default UpdateProfile
