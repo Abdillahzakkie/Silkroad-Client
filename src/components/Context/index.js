@@ -1,6 +1,6 @@
 import React, { createContext, Component } from "react";
 import Web3 from 'web3';
-import { abi, networks } from "../../contracts/ProductContract.json";
+import { abi, networks } from "../../contracts/MyContract.json";
 
 const web3Context = createContext();
 
