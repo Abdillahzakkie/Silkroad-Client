@@ -102,11 +102,11 @@ export function Register({ history }) {
                 </div>
                 <div className="center">
                     <div>
-                    <input type="file" className='real-btn' hidden />
-                    <button type='button' className='custom-button' onClick={() => handleFileUpload(setBuffer)}>
-                        CHOOSE A FILE
-                    </button>
-                    <small className='custom-text'>No file choosen yet</small>
+                        <input type="file" className='real-btn' hidden />
+                        <button type='button' className='custom-button' onClick={() => handleFileUpload(setBuffer)}>
+                            CHOOSE A FILE
+                        </button>
+                        <small className='custom-text'>No file choosen yet</small>
                     </div>
                 </div>
                 <div className="center">

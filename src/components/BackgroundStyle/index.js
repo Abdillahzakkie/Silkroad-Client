@@ -45,3 +45,23 @@ export const NavbarContainer = styled.div`
         & { padding: 0; }
     }
 `
+
+export const ProfilePhoto = styled.div`
+    background: linear-gradient(to right, rgba(0,0,0, .5), rgba(0,0,0, .5)),
+        url(${props => props.image ? props.image : defaultBcg}) center/cover no-repeat;
+    width: 225px;
+    height: 225px;
+    margin: 45vh auto 0;
+    border-radius: 100%;
+    place-items: center;
+
+    & .custom-button {
+        width: 100px;
+        height: 40px;
+        padding: .75rem 0 0;
+        border: 1px solid var(--darkGrey);
+        background: transparent;
+        color: var(--white);
+        letter-spacing: var(--mainSpacing);
+    }
+`

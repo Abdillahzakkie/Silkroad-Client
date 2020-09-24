@@ -1,4 +1,4 @@
-export function handleFileUpload(setBuffer) {        
+export function handleFileUpload(setBuffer) {     
     const realBtn = document.querySelector('.real-btn');
     const customBtn = document.querySelector('.custom-button');
     const customText = document.querySelector('.custom-text');
