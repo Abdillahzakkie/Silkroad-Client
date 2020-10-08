@@ -1,5 +1,7 @@
 import React, { createContext, Component } from 'react'
 import data from '../../data';
+import cartsItems from '../../data/cart';
+
 
 const productContext = createContext();
 
@@ -13,22 +15,28 @@ class ProductProvider extends Component {
             sortedProducts: [],
             featuredProducts: [],
             selectValue: 'all',
+
+            carts: []
         }
     }
 
     componentDidMount() {
-        const products = this.loadProducts(data);
+        const products = this.formatProducts(data);
         const featuredProducts = this.featuredProducts(products);
+        const carts = this.formatProducts(cartsItems)
+
+        console.log(carts)
         this.setState({
             products,
             sortedProducts: products,
             featuredProducts,
+            carts,
             loading: false
         });
     }
     
     // Load all product data
-    loadProducts = data => {
+    formatProducts = data => {
         const tempItems = data.map(item => {
             const id = item.sys.id;
             const seller = item.sys.seller;
@@ -71,18 +79,40 @@ class ProductProvider extends Component {
         }
     }
 
+    removeCartItem = id => {
+        const carts = this.state.carts.filter(product => product.id !== id);
+        this.setState({ carts })
+    }
+
+    handleQuantityChange = (id, { carts } = this.state) => value => {
+        const product = carts.find(product => product.id === id);
+        if(value === "decrement") {
+            product.quantity <= 0 
+                ? this.removeCartItem(id)
+                : product.quantity -= 1
+        } else if(value === "increment") {
+            product.quantity += 1;
+        }
+        this.setState({ carts })
+        console.log(carts)
+    }
+
     render() {
         const { 
             findProductById,
             getCategory,
-            handleSelectChange
+            handleSelectChange,
+            removeCartItem,
+            handleQuantityChange
         } = this;
         return (
             <productContext.Provider value={{
                 ...this.state,
                 findProductById,
                 getCategory,
-                handleSelectChange
+                handleSelectChange,
+                removeCartItem,
+                handleQuantityChange
             }}>
                 {this.props.children}
             </productContext.Provider>

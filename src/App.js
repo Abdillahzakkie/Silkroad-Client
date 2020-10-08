@@ -20,7 +20,8 @@ import Login from "./components/Pages/Login";
 import Register from "./components/Pages/Register";
 import Profile from "./components/Pages/Profile";
 import CreateNewProduct from "./components/Pages/CreateNewProduct";
-import Error from './components/Pages/Error';
+import Cart from "./components/Pages/Cart";
+import Error from "./components/Pages/Error";
 
 export function App() {
   const web3Consumer = useContext(web3Context);
@@ -32,16 +33,17 @@ export function App() {
       <Navbar theme={theme} />
       <Switch>
         <Route exact path='/' component={Home} />
+        <Route exact path='/products' component={Product} />
         <Route exact path='/about' component={About} />
         <Route exact path='/blog' component={Blog} />
-        <Route exact path='/products' component={Product} />
+        <Route exact path='/contact' component={Contact} />
         <Route exact path='/products/auth/new' component={CreateNewProduct} />
         <Route exact path='/products/:id' component={SingleProduct} />
+        <Route exact path='/cart' component={Cart} />
         <Route exact 
           path='/my_account' 
           render={() => isLoggedIn ? <Profile /> : <Redirect to='/login' /> } 
         />
-        <Route exact path='/contact' component={Contact} />
         <Route exact path='/login' component={Login} />
         <Route exact path='/register' component={Register} />
         <Route path='*' component={Error} />

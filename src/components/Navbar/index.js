@@ -1,6 +1,7 @@
 import React, { useState, useContext } from 'react';
 import { NavLink, Link } from "react-router-dom";
 import { FaAlignRight } from "react-icons/fa";
+import { AiOutlineShoppingCart } from "react-icons/ai";
 import { web3Context } from "../Context";
 import { NavbarContainer } from '../BackgroundStyle'
 // import logo from '../../assets/logo.png';
@@ -48,6 +49,18 @@ export function Navbar({ theme }) {
                 <ul>{Navlist}</ul>
             </div>
             <div className="center login">
+                {/* <Link to={isLoggedIn ? '/my_account' : '/login'} className='center profile-picture'>
+                    <img 
+                        src={isLoggedIn ? userData.image : user} 
+                        alt="user" 
+                        className={isLoggedIn ? 'online': 'offline'}
+                    />
+                </Link> */}
+
+                <Link to='/cart' className='center profile-picture'>
+                    <AiOutlineShoppingCart className='icon' />
+                </Link>
+
                 <Link to={isLoggedIn ? '/my_account' : '/login'} className='center profile-picture'>
                     <img 
                         src={isLoggedIn ? userData.image : user} 

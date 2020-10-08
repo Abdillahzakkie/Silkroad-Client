@@ -21,6 +21,8 @@ class Web3Provider extends Component {
             featuredProducts: [],
             productCount: 0,
             selectValue: 'all',
+
+            carts: []
         }
     }
 
@@ -78,7 +80,8 @@ class Web3Provider extends Component {
             productCount, 
             products, 
             sortedProducts: products,
-            featuredProducts
+            featuredProducts,
+            carts: products
         });
     }
 
@@ -158,7 +161,8 @@ class Web3Provider extends Component {
     // Get unique category
     getCategory = ({ products } = this.state) => {
         const category = products.reduce((prev, next) => {
-            if(!prev.includes(next.type)) { prev.push(next.type) }
+            // if(!prev.includes(next.type)) { prev.push(next.type) }
+            if(!prev.includes(next.type)) prev = [...prev, next.type];
             return prev
         }, ['all']);
 
@@ -182,6 +186,11 @@ class Web3Provider extends Component {
         }
     }
 
+    removeCartItem = id => {
+        const carts = this.state.carts.filter(product => product.id !== id);
+        this.setState({ carts })
+    }
+
     render() {
 
         const {
@@ -193,7 +202,8 @@ class Web3Provider extends Component {
             findProductById,
             getSlug,
             getCategory,
-            handleSelectChange
+            handleSelectChange,
+            removeCartItem,
         } = this;
 
         return (
@@ -207,7 +217,8 @@ class Web3Provider extends Component {
                 findProductById,
                 getSlug,
                 getCategory,
-                handleSelectChange
+                handleSelectChange,
+                removeCartItem,
             }}>
                 {this.props.children}
             </web3Context.Provider >

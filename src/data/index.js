@@ -9,7 +9,7 @@ import img6 from "../assets/facilities/home6.jpg";
 export default [
   {
     sys: {
-      id: "1",
+      id: 1,
       seller: "Johnny William",
     },
     fields: {
@@ -66,7 +66,7 @@ export default [
   },
   {
     sys: {
-      id: "2",
+      id: 2,
       seller: "Karry Pitcher"
     },
     fields: {
@@ -123,7 +123,7 @@ export default [
   },
   {
     sys: {
-      id: "3",
+      id: 3,
       seller: "Michael Soft"
     },
     fields: {
@@ -180,7 +180,7 @@ export default [
   },
   {
     sys: {
-      id: "4",
+      id: 4,
       seller: "Mary Cool"
     },
     fields: {
@@ -237,7 +237,7 @@ export default [
   },
   {
     sys: {
-      id: "5",
+      id: 5,
       seller: "George Walker"
     },
     fields: {
@@ -294,7 +294,7 @@ export default [
   },
   {
     sys: {
-      id: "6",
+      id: 6,
       seller: "kate town"
     },
     fields: {
@@ -351,7 +351,7 @@ export default [
   },
   {
     sys: {
-      id: "7",
+      id: 7,
       seller: "kate town"
     },
     fields: {
@@ -408,7 +408,7 @@ export default [
   },
   {
     sys: {
-      id: "8",
+      id: 8,
       seller: "kate town"
     },
     fields: {
@@ -465,7 +465,7 @@ export default [
   },
   {
     sys: {
-      id: "9",
+      id: 9,
       seller: "kate town"
     },
     fields: {
@@ -522,7 +522,7 @@ export default [
   },
   {
     sys: {
-      id: "10",
+      id: 10,
       seller: "kate town"
     },
     fields: {
