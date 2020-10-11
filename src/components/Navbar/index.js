@@ -61,7 +61,7 @@ export function Navbar({ theme }) {
                     <AiOutlineShoppingCart className='icon' />
                 </Link>
 
-                <Link to={isLoggedIn ? '/my_account' : '/login'} className='center profile-picture'>
+                <Link to={isLoggedIn ? '/products/auth/new' : '/login'} className='center profile-picture'>
                     <img 
                         src={isLoggedIn ? userData.image : user} 
                         alt="user" 

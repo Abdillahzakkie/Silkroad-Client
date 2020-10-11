@@ -15,7 +15,7 @@ export default [
     fields: {
       name: "product title",
       price: 25.5,
-      quantity: 0,
+      quantity: 1,
       images: [
         {
           fields: {
@@ -56,7 +56,7 @@ export default [
     fields: {
       name: "product title",
       price: 30.25,
-      quantity: 0,
+      quantity: 1,
       images: [
         {
           fields: {
@@ -97,7 +97,7 @@ export default [
     fields: {
       name: "product title",
       price: 20.45,
-      quantity: 0,
+      quantity: 1,
       images: [
         {
           fields: {
@@ -138,7 +138,7 @@ export default [
     fields: {
       name: "product title",
       price: 15.25,
-      quantity: 0,
+      quantity: 1,
       images: [
         {
           fields: {

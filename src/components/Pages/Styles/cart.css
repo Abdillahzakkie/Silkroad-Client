@@ -6,7 +6,7 @@
 
 .cart .wrapper header,
 .cart .wrapper .cart-container .cart-list-item {
-    grid-template-columns: repeat(6, 2fr);
+    grid-template-columns: 2fr 3fr 2fr 2fr 1fr;
     width: 80vw;
     margin: auto;
     color: var(--darkGrey);
@@ -38,12 +38,17 @@
 
 .cart .cart-container .cart-list-item .quantity {
     grid-template-columns: repeat(3, 1fr);
-    width: 50%;
+    width: 80%;
 }
 .cart .cart-container .cart-list-item .quantity button {
     padding: .5rem;
-    border: 1px solid var(--red);
+    border: 1px solid var(--lightGrey);
     background: transparent;
+}
+.cart .cart-container .cart-list-item .quantity span {
+    /* padding: .5rem .5rem .5rem .75rem; */
+    width: 45px;
+    border: none;
 }
 
 .cart .cart-container .cart-list-item .center img {

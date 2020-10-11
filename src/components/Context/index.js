@@ -35,6 +35,9 @@ class Web3Provider extends Component {
     loadWeb3 = async () => {
         if(window.ethereum) {
             window.web3 = new Web3(window.ethereum);
+            // cancel autorefresh on network change
+            window.ethereum.autoRefreshOnNetworkChange = false;
+            console.log(window.ethereum.eth_requestAccounts)
             await window.ethereum.enable();
         } else if(window.web3) {
             window.web3 = new Web3(window.web3.currentProvider);
@@ -159,12 +162,13 @@ class Web3Provider extends Component {
     getSlug = id => this.state.products.find(item => item.id === id);
 
     // Get unique category
-    getCategory = ({ products } = this.state) => {
+    getCategory = (value, { products } = this.state) => {
+        const isValid = value ? value : "all";
         const category = products.reduce((prev, next) => {
             // if(!prev.includes(next.type)) { prev.push(next.type) }
-            if(!prev.includes(next.type)) prev = [...prev, next.type];
+            if(!prev.includes(next.category)) prev = [...prev, next.category];
             return prev
-        }, ['all']);
+        }, [isValid]);
 
         return category
     }

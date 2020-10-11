@@ -12,6 +12,7 @@ function Cart() {
     
     const cartContainer = carts.map(cart => {
         const image = cart.images[0];
+        const price = cart.price * cart.quantity;
         return (
             <section key={cart.id} className='center cart-list-item'>
                 <div className="center">
@@ -20,17 +21,15 @@ function Cart() {
                 <div className="center">
                     <p className='center'>{cart.name}</p>
                 </div>
-                <div className="center">
-                    <p className='center'>{cart.price} ether</p>
-                </div>
                 <div className="center quantity">
-                    {/* <p className='center'>{cart.quantity}</p> */}
-                    <button onClick={() => handleQuantityChange(cart.id)("increment")}>+</button>
-                        <span>{1}</span>
-                    <button onClick={() => handleQuantityChange(cart.id)("decrement")}>-</button>
+                    {/* eslint-disable-next-line */}
+                    <button onClick={() => handleQuantityChange(cart.id)("decrement")}>➖</button>
+                    <span>{cart.quantity}</span>
+                    {/* eslint-disable-next-line */}
+                    <button onClick={() => handleQuantityChange(cart.id)("increment")}>➕</button>
                 </div>
                 <div className="center">
-                    <p className='center'>$49.00</p>
+                    <p className='center'>${Math.round(price)}</p>
                 </div>
                 <div className="center">
                     {/* eslint-disable-next-line */}
@@ -42,6 +41,11 @@ function Cart() {
         )
     });
 
+    const priceList = carts.map(cart => Math.round(cart.price * cart.quantity));
+    const totalPrice = priceList.reduce((curr, next) => {
+        curr = Number(curr) + Number(next)
+        return curr
+    }, [0]);
 
     return (
         <div className='cart'>
@@ -54,16 +58,13 @@ function Cart() {
                         <h3 className='center'>product</h3>
                     </div>
                     <div className="center">
-                        <h3 className='center'>price</h3>
-                    </div>
-                    <div className="center">
                         <h3 className='center'>quantity</h3>
                     </div>
                     <div className="center">
                         <h3 className='center'>total</h3>
                     </div>
                     <div className="center">
-                        <h3 className='center'>remove</h3>
+                        
                     </div>
                 </header>
                 <div className="center cart-container">{cartContainer}</div>
@@ -91,7 +92,7 @@ function Cart() {
                         </div>
                         <div className="center">
                             <p>Subtotal</p>
-                            <p>$230.00</p>
+                            <p>${totalPrice}</p>
                         </div>
                     </section>
                 </div>

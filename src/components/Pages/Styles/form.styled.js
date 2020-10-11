@@ -7,8 +7,7 @@ export const FormContainer = styled.div`
     width: 100vw;
 
     & .form-group {
-        width: 40%;
-        /* background: rgba(75, 56, 210, .8); */
+        width: ${props => props.width ? props.width : 40}%;
         background: var(--lightGrey);
         color: var(--white);
         height: auto;
@@ -60,7 +59,7 @@ export const FormContainer = styled.div`
     /* Set Custom type */
     & .form-group .center .custom-type-btn, .custom-button {
         place-self: end;
-        width: 150px;
+        width: 200px;
         background: var(--mainGreen);
         transition: var(--mainTransition);
         margin: .5rem 0 0;

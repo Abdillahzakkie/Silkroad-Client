@@ -31,6 +31,8 @@ input, button, textarea {
 }
 button { cursor: pointer; }
 
+.App { overflow: hidden; }
+
 .center {
     display: grid;
     grid-template-columns: 1fr;
@@ -44,3 +46,4 @@ button { cursor: pointer; }
 .offline { border: 2px solid var(--red); }
 .hide { display: none; }
 .show { display: grid; }
+.error-message { color: var(--red); }

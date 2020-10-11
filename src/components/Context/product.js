@@ -25,7 +25,6 @@ class ProductProvider extends Component {
         const featuredProducts = this.featuredProducts(products);
         const carts = this.formatProducts(cartsItems)
 
-        console.log(carts)
         this.setState({
             products,
             sortedProducts: products,
@@ -51,6 +50,9 @@ class ProductProvider extends Component {
 
     // find product by id
     findProductById = id => this.state.products.find(item => item.id === id);
+
+    // find product by id
+    getSlug = id => this.state.products.find(item => item.id === id);
 
     // Get unique category
     getCategory = ({ products } = this.state) => {
@@ -86,15 +88,11 @@ class ProductProvider extends Component {
 
     handleQuantityChange = (id, { carts } = this.state) => value => {
         const product = carts.find(product => product.id === id);
-        if(value === "decrement") {
-            product.quantity <= 0 
-                ? this.removeCartItem(id)
-                : product.quantity -= 1
-        } else if(value === "increment") {
-            product.quantity += 1;
-        }
+        if(product.quantity < 1) return this.removeCartItem(id);
+        value === "increment"
+            ? product.quantity += 1
+            : product.quantity -= 1
         this.setState({ carts })
-        console.log(carts)
     }
 
     render() {
@@ -103,7 +101,8 @@ class ProductProvider extends Component {
             getCategory,
             handleSelectChange,
             removeCartItem,
-            handleQuantityChange
+            handleQuantityChange,
+            getSlug
         } = this;
         return (
             <productContext.Provider value={{
@@ -112,7 +111,8 @@ class ProductProvider extends Component {
                 getCategory,
                 handleSelectChange,
                 removeCartItem,
-                handleQuantityChange
+                handleQuantityChange,
+                getSlug
             }}>
                 {this.props.children}
             </productContext.Provider>

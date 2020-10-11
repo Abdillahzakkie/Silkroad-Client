@@ -15,6 +15,7 @@ export function CreateNewProduct({ history }) {
     const [description, setDescription] = useState('');
     const [type, setType] = useState('');
     const [customType, setCustomType] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(null);
 
     const web3Consumer = useContext(web3Context);
     const helperConsumer = useContext(helperContext);
@@ -27,18 +28,41 @@ export function CreateNewProduct({ history }) {
         selectValue, 
         handleSelectChange, 
         getCategory, 
+        products
     } = web3Consumer;
+
     const { buffer, setBuffer, priceConverter } = helperConsumer;
 
     const handleSubmit = async e => {
         e.preventDefault();
         try {
-            if(!buffer) return;
+            if(!buffer) {
+                return setErrorMessage("Please upload products images!");
+            }
             if(!isLoggedIn) return history.push('/login');
-            const currType = customType && type ? type : selectValue;
+            let customType;
+            type 
+                ? customType = type 
+                : customType = selectValue;
+            if(customType === "all" && customType) {
+                return setErrorMessage("Please select or add a new category");
+            }
 
-            if(!productName || !currType ||!description) 
+            for(let x = 0; x <= products.length; x++) {
+                if(products.length === 0) { break; }
+
+                if(!errorMessage && products[x].category.includes(customType)) {
+                    return setErrorMessage("Category has already existed!");
+                }
+            }
+            console.log(`type: ${type}`)
+            console.log(`customType: ${customType}`)
+            console.log(`errorMessage: ${errorMessage}`)
+            console.log(`getCategory: ${getCategory("none")}`)
+            
+            if(!productName ||!description) {
                 throw new Error('All input fields are marked as required!');
+            }
 
             if(price <= 0 || quantity <= 0) throw new Error('Bad input!');
 
@@ -47,7 +71,7 @@ export function CreateNewProduct({ history }) {
             const data = { 
                 name: productName, 
                 description,
-                type: currType, 
+                category: customType, 
                 price: await priceConverter(web3, price), 
                 quantity,
                 reviews: 'hello world',
@@ -69,7 +93,7 @@ export function CreateNewProduct({ history }) {
     }
 
     return (
-        <FormContainer className='center'>
+        <FormContainer className='center' width='50'>
             <form className="center form-group" onSubmit={handleSubmit}>
                 <div className="brand">
                     <h2 className="center">Create new product</h2>
@@ -77,7 +101,7 @@ export function CreateNewProduct({ history }) {
                 <div className="center">
                     <input 
                         value={productName}
-                        type="type" 
+                        type="text" 
                         id='productName' 
                         placeholder='Product name' 
                         onChange={e => setProductName(e.target.value)}
@@ -85,10 +109,13 @@ export function CreateNewProduct({ history }) {
                 </div>
                 <div className="center">
                     <select value={selectValue} onChange={handleSelectChange}>
-                        { getCategory().map(item => <option key={item}>{item}</option>) }
+                        { getCategory("none").map((item, i) => <option key={i}>{item}</option>) }
                     </select>
+                    <small className={errorMessage ? "center error-message" : "hide"}>
+                        {errorMessage}
+                    </small>
                     <button type='button' className='custom-type-btn' onClick={() => setCustomType(!customType)}>
-                        {customType ? 'Hide custom type' : 'Add custom type'}
+                        {customType ? 'Hide custom category' : 'Add custom category'}
                     </button>
                 </div>
                 <div className={customType ? "center" : "hide"}>
@@ -96,9 +123,12 @@ export function CreateNewProduct({ history }) {
                         value={type}
                         type="text" 
                         id='type' 
-                        placeholder='Enter a new type' 
+                        placeholder='Enter a new category' 
                         onChange={e => setType(e.target.value)}
                     />
+                    <small className={errorMessage ? "center error-message" : "hide"}>
+                        {errorMessage}
+                    </small>
                 </div>
                 <div className="center main">
                     <input 
@@ -132,11 +162,14 @@ export function CreateNewProduct({ history }) {
                         </button>
                         <small className='custom-text'>No file choosen yet</small>
                     </div>
+                    <small className={errorMessage ? "center error-message" : "hide"}>
+                        {errorMessage}
+                    </small>
                 </div>
                 <div className="center">
                     <button type='submit' className="btn">Create product</button>
                 </div>
-                <div className="center">
+                <div className={!isLoggedIn ? "center" : "hide"}>
                     <p>
                         Already have an account? 
                         <Link to='/login'>Login</Link>
