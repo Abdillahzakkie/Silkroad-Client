@@ -35,10 +35,10 @@ class Web3Provider extends Component {
     loadWeb3 = async () => {
         if(window.ethereum) {
             window.web3 = new Web3(window.ethereum);
+            await window.ethereum.enable();
             // cancel autorefresh on network change
             window.ethereum.autoRefreshOnNetworkChange = false;
-            console.log(window.ethereum.eth_requestAccounts)
-            await window.ethereum.enable();
+
         } else if(window.web3) {
             window.web3 = new Web3(window.web3.currentProvider);
         } else {
@@ -177,7 +177,7 @@ class Web3Provider extends Component {
     handleSelectChange = (e, { products } = this.state) => {
         // Get current value
         const currentValue = e.currentTarget.value;
-
+        
         // update 
         if (currentValue === 'all') {
             return this.setState({ 
@@ -185,13 +185,37 @@ class Web3Provider extends Component {
                 sortedProducts: products 
             });
         } else {
-            const tempItem = products.filter(item => item.type === currentValue);
+            const tempItem = products.filter(item => item.category === currentValue);
             this.setState({selectValue: currentValue, sortedProducts: tempItem});
         }
     }
 
+    handleAddtoCart = (id, { products, carts } = this.state) => {
+        if(this.inCart(id)) return this.removeCartItem(id);
+
+        const product = products.find(product => product.id === id);
+        const cartsItem = [...carts, product];
+        cartsItem.find(cart => cart.id === id).quantity = 1;
+        this.setState({ carts: cartsItem })
+    }
+
+    inCart = (id, { carts } = this.state) => {
+        const product = carts.find(cart => cart.id === id);
+        if(!product) return false;
+        return true
+    }
+
     removeCartItem = id => {
         const carts = this.state.carts.filter(product => product.id !== id);
+        this.setState({ carts })
+    }
+
+    handleQuantityChange = (id, { carts } = this.state) => value => {
+        const product = carts.find(product => product.id === id);
+        if(product.quantity < 1) return this.removeCartItem(id);
+        value === "increment"
+            ? product.quantity += 1
+            : product.quantity -= 1
         this.setState({ carts })
     }
 
@@ -208,6 +232,9 @@ class Web3Provider extends Component {
             getCategory,
             handleSelectChange,
             removeCartItem,
+            handleAddtoCart,
+            handleQuantityChange,
+            inCart
         } = this;
 
         return (
@@ -223,6 +250,9 @@ class Web3Provider extends Component {
                 getCategory,
                 handleSelectChange,
                 removeCartItem,
+                handleAddtoCart,
+                handleQuantityChange,
+                inCart
             }}>
                 {this.props.children}
             </web3Context.Provider >

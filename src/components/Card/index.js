@@ -1,15 +1,23 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
+import { FaCartPlus } from "react-icons/fa";
 import { ErrorBoundary } from '../ErrorBoundary';
+import { web3Context } from "../Context"
 import { Loading } from "../Loading";
 import { CardContainer } from "./card.styled.js";
 
+
 export function Card({cardItem}) {
+    const web3Consumer = useContext(web3Context);
+    const { handleAddtoCart, inCart } = web3Consumer;
     if(!cardItem) return <Loading />
 
     const filteredProjects = cardItem.map(item => {
+        let isInCart = false;
+        if(inCart(item.id)) isInCart = true;
+
         return (
-            <div key={item.id} className="center card">
+            <div key={item.id} className={isInCart ? "center card inCart" : "center card"}>
                 <img src={item.images[0]} alt={item.name} />
                 <h2>
                     {/* maximum characters 20 characters */}
@@ -18,10 +26,18 @@ export function Card({cardItem}) {
                 <Link to={`/products/${item.id}`}>
                     <button className="center features">features</button>
                 </Link>
+                <button 
+                    type='button' 
+                    className={isInCart ? "center icon inCart" : "center icon"}
+                    onClick={() => handleAddtoCart(item.id)}
+                >
+                    <FaCartPlus />
+                </button>
             </div>
         )
     });
     
     return <CardContainer className="center">{filteredProjects}</CardContainer>
 }
+
 export default ErrorBoundary(Card)

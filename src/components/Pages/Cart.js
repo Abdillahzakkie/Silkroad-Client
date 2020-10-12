@@ -2,17 +2,20 @@ import React, { useContext } from 'react';
 import { Link } from "react-router-dom";
 import { ErrorBoundary } from "../ErrorBoundary";
 import { Loading } from "../Loading";
-import { productContext } from "../Context/product";
+import { web3Context } from "../Context";
 import './Styles/cart.css';
 
 function Cart() {
-    const productConsumer = useContext(productContext);
-    const { carts, removeCartItem, handleSubmit, handleQuantityChange } = productConsumer;
+    const web3Consumer = useContext(web3Context);
+    const { carts, removeCartItem, handleSubmit, handleQuantityChange } = web3Consumer;
+
     if(!carts) return <Loading />;
-    
+    console.log(carts.length);
+    console.log(carts)
     const cartContainer = carts.map(cart => {
         const image = cart.images[0];
-        const price = cart.price * cart.quantity;
+        const price = cart.price.toFixed(2) * cart.quantity.toFixed(2);
+
         return (
             <section key={cart.id} className='center cart-list-item'>
                 <div className="center">
@@ -29,7 +32,7 @@ function Cart() {
                     <button onClick={() => handleQuantityChange(cart.id)("increment")}>➕</button>
                 </div>
                 <div className="center">
-                    <p className='center'>${Math.round(price)}</p>
+                    <p className='center'>${price}</p>
                 </div>
                 <div className="center">
                     {/* eslint-disable-next-line */}
@@ -41,10 +44,10 @@ function Cart() {
         )
     });
 
-    const priceList = carts.map(cart => Math.round(cart.price * cart.quantity));
+    const priceList = carts.map(cart => cart.price.toFixed(2) * cart.quantity.toFixed(2));
     const totalPrice = priceList.reduce((curr, next) => {
         curr = Number(curr) + Number(next)
-        return curr
+        return curr.toFixed(2)
     }, [0]);
 
     return (
@@ -87,12 +90,21 @@ function Cart() {
                     </section>
 
                     <section className="center">
+                        <h2>cart total</h2>
                         <div className="center">
-                            <h2>cart total</h2>
-                        </div>
-                        <div className="center">
-                            <p>Subtotal</p>
-                            <p>${totalPrice}</p>
+                            <div className="center price-info">
+                                <p>Subtotal: </p>
+                                <p>${totalPrice}</p>
+                            </div>
+                            <div className="center price-info">
+                                <p>Total: </p>
+                                <p>${totalPrice}</p>
+                            </div>
+                            <div className="center">
+                                <button type='button' className='btn'>
+                                    proceed to checkout
+                                </button>
+                            </div>
                         </div>
                     </section>
                 </div>

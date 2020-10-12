@@ -2,9 +2,9 @@ import React, { useState, useContext } from 'react';
 import { NavLink, Link } from "react-router-dom";
 import { FaAlignRight } from "react-icons/fa";
 import { AiOutlineShoppingCart } from "react-icons/ai";
+import { BiCloudUpload } from "react-icons/bi";
 import { web3Context } from "../Context";
 import { NavbarContainer } from '../BackgroundStyle'
-// import logo from '../../assets/logo.png';
 import user from '../../assets/user_icon/male.jpg';
 import './navbar.css';
 
@@ -48,20 +48,16 @@ export function Navbar({ theme }) {
             <div className={ navOpen ? 'center nav-list nav-list-mobile' : 'center nav-list' }>
                 <ul>{Navlist}</ul>
             </div>
-            <div className="center login">
-                {/* <Link to={isLoggedIn ? '/my_account' : '/login'} className='center profile-picture'>
-                    <img 
-                        src={isLoggedIn ? userData.image : user} 
-                        alt="user" 
-                        className={isLoggedIn ? 'online': 'offline'}
-                    />
-                </Link> */}
-
-                <Link to='/cart' className='center profile-picture'>
+            <div className="center nav-icons">
+                <Link to='/cart' className='center'>
                     <AiOutlineShoppingCart className='icon' />
                 </Link>
 
-                <Link to={isLoggedIn ? '/products/auth/new' : '/login'} className='center profile-picture'>
+                <Link to={isLoggedIn ? '/products/auth/new' : '/login'}  className={isLoggedIn ? 'center' : 'hide'}>
+                    <BiCloudUpload className='icon' />
+                </Link>
+
+                <Link to={isLoggedIn ? '/products/auth/new' : '/login'} className='center'>
                     <img 
                         src={isLoggedIn ? userData.image : user} 
                         alt="user" 

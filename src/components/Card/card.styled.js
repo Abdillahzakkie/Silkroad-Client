@@ -13,6 +13,7 @@ export const CardContainer = styled.div`
         transition: all 500ms ease-in-out;
         overflow: hidden;
         box-shadow: 3px 3px 5px 1.5px #00000080;
+        position: relative;
     }
     & .card:hover { box-shadow: 7px 3px 7px 0 #0000004d; }
 
@@ -48,6 +49,18 @@ export const CardContainer = styled.div`
     }
     & .card:hover .features{ opacity: 1; }
 
+    & .card .icon,
+    & .card .inCart {
+        position: absolute;
+        top: 0;
+        right: 0;
+        background: transparent;
+        color: var(--yellow);
+        font-size: 1.5rem;
+        padding: .25rem;
+    }
+
+    & .card .inCart { color: var(--white); }
 
     @media (max-width: 599px) {
         & { padding: 0 1rem; grid-gap: .5rem 2rem; }
