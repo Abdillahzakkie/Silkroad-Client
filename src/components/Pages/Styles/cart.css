@@ -68,9 +68,10 @@
 
 /* Container-fluid */
 .cart .container-fluid {
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: 2fr 1fr;
     width: 80vw;
     margin: 1rem auto 0;
+    grid-gap: 0 2rem;
 }
 .cart .container-fluid section {
     width: 100%;
@@ -136,6 +137,38 @@
     color: var(--white);
     padding: 0 .5rem;
     font-size: .75rem;
+}
+
+.cart .container-fluid section:nth-child(even) h2 {
+    text-align: right;
+    width: 100%;
+    border-bottom: 1px solid var(--lightGrey);
+    color: var(--darkGrey);
+    line-height: 2;
+    text-transform: uppercase;
+    letter-spacing: var(--mainSpacing);
+}
+.cart .container-fluid section:nth-child(even) .center,
+.cart .container-fluid section:nth-child(even) .center .price-info {
+    margin: 0;
+    width: 100%;
+    color: var(--lightGrey);
+}
+.cart .container-fluid section:nth-child(even) .center .price-info {
+    grid-template-columns: repeat(2, 1fr);
+}
+.cart .container-fluid section:nth-child(even) .center .price-info:nth-child(even) {
+    place-self: end;
+}
+.cart .container-fluid section:nth-child(even) .btn {
+    height: 40px;
+    background: var(--red);
+    text-transform: uppercase;
+    letter-spacing: var(--mainSpacing);
+    margin: 2rem 0 0;
+    color: var(--white);
+    font-size: .75rem; 
+    border-radius: .25rem;
 }
 
 @media (max-width: 767px) {

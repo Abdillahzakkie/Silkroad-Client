@@ -7,7 +7,7 @@
 
 .navbar .nav-brand, 
 .navbar .nav-list, 
-.navbar .login,
+.navbar .nav-icons,
 .navbar .toggle {
     margin: auto;
 }
@@ -33,23 +33,22 @@
 /* Nav toggle */
 .navbar .toggle { display: none; }
 
-/* Nav login button */
-.navbar .login {
-    grid-template-columns: repeat(2, 1fr);
-    /* grid-column: 11/13; */
-    grid-column: 12/13;
+/* Nav icons button */
+.navbar .nav-icons {
+    grid-template-columns: repeat(3, 1fr);
+    grid-column: 11/13;
     height: 35px;
     width: 100%;
 }
 
-.navbar .login a img,
-.navbar .login a .icon {
+.navbar .nav-icons a img,
+.navbar .nav-icons a .icon {
     width: 30px;
     height: 30px;
     margin: auto;
     border-radius: 100%;
 }
-.navbar .login a .icon { 
+.navbar .nav-icons a .icon { 
     /* height: 20%;  */
     width: 25px;
     height: 25px;
@@ -59,14 +58,15 @@
     .navbar .nav-brand,
     .navbar .toggle {
         padding: 1.5rem;
-        /* padding: 1rem .5rem; */
     }
 
     /* Nav brand */
     .navbar .nav-brand { grid-column: 1/10; margin-left: 0; }
 
     .navbar .nav-list,
-    .navbar .login { display: none; }
+    .navbar .nav-icons { 
+        display: none;
+    }
 
     /* Nav list */
     .navbar .nav-list-mobile {

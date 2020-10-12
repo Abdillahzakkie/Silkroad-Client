@@ -1,13 +1,11 @@
 import React, { useState, useContext } from 'react';
 import { web3Context } from "../Context";
-// import { RiArrowDropDownFill } from "react-icons/ri";
 import "./index.css";
 
 export function Category() {
     const [inputValue, setInputValue] = useState('');
     const web3Consumer = useContext(web3Context);
     const { selectValue, handleSelectChange, getCategory } = web3Consumer;
-
     const handleFormSubmit = e => {
 
     }
