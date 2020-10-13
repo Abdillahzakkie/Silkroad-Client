@@ -88,11 +88,11 @@ class Web3Provider extends Component {
         });
     }
 
-    // Get User hash
-    getUserData = async (account, { contract, user } = this.state) => 
-        account 
-            ? await contract.methods.findUserByAddress(account).call()
-            : await contract.methods.findUserByAddress(user).call();
+    // Get User Data
+    // getUserData = async (account, { contract, user } = this.state) => {
+    //     account ? await contract.methods.findUserByAddress(account).call()
+    //         : await contract.methods.findUserByAddress(user).call();
+    // }
 
     // login user
     login = userData => this.setState({ isLoggedIn: true, userData });
@@ -135,15 +135,18 @@ class Web3Provider extends Component {
     // load all products
     loadAllProducts = async (contract, web3, productCount) => {
         let products = [];
-
         for(let i = 1; i <= productCount; i++) {
             const currentProduct = await contract.methods.findProduct(i).call();
             const { _productDetails, _productId, _seller } = currentProduct;
-            const response = await (await fetch(_productDetails)).json();
+            const product = await (await fetch(_productDetails)).json();
+
+            const link = (await contract.methods.findUserByAddress(_seller).call())._hashID;
+            const seller = (await (await fetch(link)).json()).username;
+
             const data = { 
-                ...response,
-                price: web3.utils.fromWei(response.price, 'ether'),
-                _seller, 
+                ...product,
+                price: web3.utils.fromWei(product.price, 'ether'),
+                seller,
                 id: _productId, 
             };
             products = [...products, data];
@@ -156,19 +159,19 @@ class Web3Provider extends Component {
 
     }
 
-    findProductById = async (id, { contract } = this.state) => await contract.methods.findProduct(id).call();
+    findProductById = async (id, { contract } = this.state) => {
+        return await contract.methods.findProduct(id).call();
+    }
     
     // find product by id
-    getSlug = id => this.state.products.find(item => item.id === id);
+    getSlug = id => this.state.products.find(product => product.id === id);
 
     // Get unique category
-    getCategory = (value, { products } = this.state) => {
-        const isValid = value ? value : "all";
+    getCategory = (value = "all", { products } = this.state) => {
         const category = products.reduce((prev, next) => {
-            // if(!prev.includes(next.type)) { prev.push(next.type) }
             if(!prev.includes(next.category)) prev = [...prev, next.category];
             return prev
-        }, [isValid]);
+        }, [value]);
 
         return category
     }
@@ -190,13 +193,30 @@ class Web3Provider extends Component {
         }
     }
 
+    handleCustomSearch = e => (value, { products } = this.state) => {
+        e.preventDefault();
+        if(value.includes('@')) {
+            const data = value.replace('@', '');
+            const searchBySeller = products.filter(product => product.seller.includes(data));
+            this.setState(
+                { sortedProducts: searchBySeller }, 
+                () => console.log(this.state.sortedProducts)
+            );
+            return;
+        }
+        const searchByCategory = products.filter(product => product.category.includes(value));
+        const searchByName = products.filter(product => product.name.includes(value));
+        const sortedProducts = [...searchByName, ...searchByCategory];
+        this.setState({ sortedProducts }, () => console.log(this.state.sortedProducts));
+    }
+
     handleAddtoCart = (id, { products, carts } = this.state) => {
         if(this.inCart(id)) return this.removeCartItem(id);
 
         const product = products.find(product => product.id === id);
-        const cartsItem = [...carts, product];
-        cartsItem.find(cart => cart.id === id).quantity = 1;
-        this.setState({ carts: cartsItem })
+        const newCart = [...carts, product];
+        newCart.find(cart => cart.id === id).quantity = 1;
+        this.setState({ carts: newCart })
     }
 
     inCart = (id, { carts } = this.state) => {
@@ -223,7 +243,7 @@ class Web3Provider extends Component {
 
         const {
             createNewAccount, 
-            getUserData, 
+            // getUserData, 
             login,
             createNewProduct,
             updateAccountDetails,
@@ -234,14 +254,15 @@ class Web3Provider extends Component {
             removeCartItem,
             handleAddtoCart,
             handleQuantityChange,
-            inCart
+            inCart,
+            handleCustomSearch
         } = this;
 
         return (
             <web3Context.Provider value= {{
                 ...this.state,
                 createNewAccount, 
-                getUserData, 
+                // getUserData, 
                 login,
                 createNewProduct,
                 updateAccountDetails,
@@ -252,7 +273,8 @@ class Web3Provider extends Component {
                 removeCartItem,
                 handleAddtoCart,
                 handleQuantityChange,
-                inCart
+                inCart,
+                handleCustomSearch
             }}>
                 {this.props.children}
             </web3Context.Provider >

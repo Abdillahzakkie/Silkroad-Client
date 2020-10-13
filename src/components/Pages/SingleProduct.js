@@ -1,36 +1,31 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { web3Context } from "../Context";
+import { reviewContext } from "../Context/review";
 import { ErrorBoundary } from "../ErrorBoundary";
 import { Loading } from '../Loading';
 import { Banner } from "../Banner";
 import { BackgroundStyle } from "../BackgroundStyle";
 import { ProductDetail } from "../Products/ProductDetail/ProductDetail";
 import { ProductInfo } from "../Products/ProductInfo/ProductInfo";
+import Review from "../Review";
 import { SingleProductContainer } from "./Styles/singleProduct.styled";
+import Error from "./Error";
 
-function SingleProduct({ match }) {
-    const [currProduct, setCurrProduct] = useState(null);
-    const [seller, setSeller] = useState('');
+export function SingleProduct({ match }) {
     const web3Consumer = useContext(web3Context);
-    const { isLoggedIn, loading, getSlug, getUserData, userData } = web3Consumer;
+    const reviewConsumer = useContext(reviewContext);
 
-    useEffect(() => {
-        (async () => {
-            setCurrProduct(product);
-    
-            if(!currProduct) return;
-            const link = (await getUserData(currProduct._seller))._hashID;
-            const response = await (await fetch(link)).json();
-            setSeller(() => response.username);
-        })()
-    })
+    const { isLoggedIn, loading, getSlug, userData } = web3Consumer;
+    const { reviews } = reviewConsumer;
 
     let product = getSlug(match.params.id);
-    if(loading || !product) return <Loading />;
+    if(loading) return <Loading />;
+    if(!product) return <Error />;
+
     let theme;
     if(isLoggedIn) theme = userData.encoded.preference.theme;
 
-    const { name, price, images, quantity, description } = product;    
+    const { name, price, images, quantity, description, seller } = product;    
 
     const [background] = images;
     const ProductImage = images.map((item, i) => {
@@ -61,7 +56,8 @@ function SingleProduct({ match }) {
                     isLoggedIn={isLoggedIn}
                     theme={theme}
                 />
-            </section>
+            </section> 
+            <Review reviewItems={reviews} />
         </SingleProductContainer>
     )
 }

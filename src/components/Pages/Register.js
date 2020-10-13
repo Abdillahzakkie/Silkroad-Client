@@ -67,7 +67,7 @@ export function Register({ history }) {
                         type="text" 
                         id='username' 
                         placeholder='Username' 
-                        onChange={e => setUsername(e.target.value)}
+                        onChange={e => setUsername((e.target.value).toLowerCase())}
                     />
                 </div>
                 <div className="center">
@@ -77,7 +77,7 @@ export function Register({ history }) {
                         type="email" 
                         id='email' 
                         placeholder='Email' 
-                        onChange={e => setEmail(e.target.value)}
+                        onChange={e => setEmail((e.target.value).toLowerCase())}
                     />
                 </div>
                 <div className="center">
