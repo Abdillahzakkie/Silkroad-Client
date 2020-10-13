@@ -1,2 +1,2 @@
 ## Silkroad
-    * Decentralized
+    Decentralized
