@@ -6,6 +6,7 @@ import * as serviceWorker from './serviceWorker';
 import { Web3Provider } from "./components/Context";
 import { ProductProvider } from "./components/Context/product";
 import { HelperProvider } from "./components/Context/helper";
+import { ReviewProvider } from "./components/Context/review";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -13,7 +14,9 @@ ReactDOM.render(
       <Web3Provider>
         <ProductProvider>
           <HelperProvider>
-            <App />
+            <ReviewProvider>
+              <App />
+            </ReviewProvider>
           </HelperProvider>
         </ProductProvider>
       </Web3Provider>

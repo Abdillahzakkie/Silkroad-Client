@@ -5,16 +5,13 @@ import "./index.css";
 export function Category() {
     const [inputValue, setInputValue] = useState('');
     const web3Consumer = useContext(web3Context);
-    const { selectValue, handleSelectChange, getCategory } = web3Consumer;
-    const handleFormSubmit = e => {
-
-    }
+    const { selectValue, handleSelectChange, getCategory, handleCustomSearch } = web3Consumer;
 
     return (
         <div className="center category">
             <div className="center main-category">
                 <p>Shop All</p>     
-                <form onSubmit={handleFormSubmit} className='center' >
+                <form onSubmit={e => handleCustomSearch(e)(inputValue)} className='center' >
                     <input 
                         type='text' 
                         placeholder='custom search' 

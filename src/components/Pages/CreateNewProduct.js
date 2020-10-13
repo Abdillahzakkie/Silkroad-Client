@@ -28,7 +28,7 @@ export function CreateNewProduct({ history }) {
         selectValue, 
         handleSelectChange, 
         getCategory, 
-        products
+        // products
     } = web3Consumer;
 
     const { buffer, setBuffer, priceConverter } = helperConsumer;
@@ -48,27 +48,29 @@ export function CreateNewProduct({ history }) {
                 return setErrorMessage("Please select or add a new category");
             }
 
-            for(let x = 0; x <= products.length; x++) {
-                if(products.length === 0) { break; }
+            // for(let i = 0; i <= products.length; i++) {
+            //     if(products.length === 0) return;
 
-                if(!errorMessage && products[x].category.includes(customType)) {
-                    return setErrorMessage("Category has already existed!");
-                }
-            }
-            console.log(`type: ${type}`)
-            console.log(`customType: ${customType}`)
-            console.log(`errorMessage: ${errorMessage}`)
-            console.log(`getCategory: ${getCategory("none")}`)
+            //     if(products[i].category.includes(customType)) {
+            //         return setErrorMessage("Category has already existed!");
+            //     }
+            // }
+            // console.log(`type: ${type}`)
+            // console.log(`customType: ${customType}`)
+            // console.log('getcategory',getCategory("none"))
             
-            if(!productName ||!description) {
-                throw new Error('All input fields are marked as required!');
+            if(!productName || description.length < 900) {
+                // throw new Error('All input fields are marked as required!');
+                return setErrorMessage("Product description must not be less than 900 words");
             }
 
-            if(price <= 0 || quantity <= 0) throw new Error('Bad input!');
+            // if(price <= 0 || quantity <= 0) throw new Error('Bad input!');
+            if(price <= 0 || quantity <= 0) return;
+
 
             console.log('Submitting form response...');
             const imageResponse = await ipfs.add(buffer);
-            const data = { 
+            let data = { 
                 name: productName, 
                 description,
                 category: customType, 
@@ -77,7 +79,7 @@ export function CreateNewProduct({ history }) {
                 reviews: 'hello world',
                 images: [`https://ipfs.io/ipfs/${imageResponse.path}`] 
             };
-
+            
             const response = await ipfs.add(JSON.stringify(data));
             const link = `https://ipfs.io/ipfs/${response.path}`;
             const newProduct = await createNewProduct(link);
@@ -87,7 +89,8 @@ export function CreateNewProduct({ history }) {
             console.log('response', response)
             console.log('link', link)
             console.log(product)
-            // history.push(`/products/${product._productID}`)
+            // history.push()
+            window.location.replace(`http://localhost:3000/products`)
 
         } catch (error) { console.log(error) }
     }
@@ -104,7 +107,7 @@ export function CreateNewProduct({ history }) {
                         type="text" 
                         id='productName' 
                         placeholder='Product name' 
-                        onChange={e => setProductName(e.target.value)}
+                        onChange={e => setProductName((e.target.value).toLowerCase())}
                     />
                 </div>
                 <div className="center">
@@ -124,7 +127,7 @@ export function CreateNewProduct({ history }) {
                         type="text" 
                         id='type' 
                         placeholder='Enter a new category' 
-                        onChange={e => setType(e.target.value)}
+                        onChange={e => setType((e.target.value).toLowerCase())}
                     />
                     <small className={errorMessage ? "center error-message" : "hide"}>
                         {errorMessage}
@@ -151,8 +154,11 @@ export function CreateNewProduct({ history }) {
                         rows="10" 
                         value={description}
                         placeholder='Description' 
-                        onChange={e => setDescription(e.target.value)}
+                        onChange={e => setDescription((e.target.value).toLowerCase())}
                     />
+                    <small className={errorMessage ? "center error-message" : "hide"}>
+                        {errorMessage}
+                    </small>
                 </div>
                 <div className="center">
                     <div>
