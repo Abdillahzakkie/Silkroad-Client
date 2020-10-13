@@ -1,2 +1,2 @@
-##Silkroad
-    * Decentralised
+#Silkroad
+    - Decentralised
