@@ -7,7 +7,7 @@ export default [
     {
         id: 1,
         name: "carolyn craig",
-        comment: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores provident id ad voluptatibus reiciendis, temporibus corrupti vero deserunt modi incidunt. Reiciendis provident ullam deserunt amet saepe? Fugiat laudantium nostrum odit? Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores provident id ad voluptatibus reiciendis, temporibus corrupti vero deserunt modi incidunt. Reiciendis provident ullam deserunt amet saepe? Fugiat laudantium nostrum odit?",
+        comment: "Lorem Ipsum Dolor Sit Amet Consectetur Adipisicing Elit. Maiores Provident Id Ad Voluptatibus Reiciendis, Temporibus Corrupti Vero Deserunt Modi Incidunt. Reiciendis Provident Ullam Deserunt Amet Saepe? Fugiat Laudantium Nostrum Odit? Lorem Ipsum Dolor Sit Amet Consectetur Adipisicing Elit. Maiores ",
         image: {
             url: c1
         }

@@ -25,12 +25,21 @@ export const CardContainer = styled.div`
         overflow: hidden;
     }
     & .card:hover img{ height: 250px; opacity: .75; }
-    & .card h2{
+    & .card .main {
+        grid-template-columns: 1fr;
+        width: 100%;
+        margin: auto 0;
+    }
+
+    & .card .main h2 {
         text-transform: uppercase;
         font-size: 1.0rem;
         padding: .5rem 1rem;
         place-self: center;
+        text-align: center;
         margin: auto 0;
+        width: 100%;
+        height: 100%;
     }
 
     /* Features */
@@ -47,7 +56,10 @@ export const CardContainer = styled.div`
         text-transform: capitalize;
         cursor: pointer;
     }
-    & .card:hover .features{ opacity: 1; }
+    & .card:hover .features, 
+    & .card:hover .price-tag { 
+        opacity: 1;
+    }
 
     & .card .icon,
     & .card .inCart {
@@ -55,12 +67,27 @@ export const CardContainer = styled.div`
         top: 0;
         right: 0;
         background: transparent;
-        color: var(--yellow);
+        color: var(--white);
         font-size: 1.5rem;
         padding: .25rem;
     }
 
-    & .card .inCart { color: var(--white); }
+    & .card .inCart { color: var(--yellow); }
+
+    & .card .price-tag {
+        position: absolute;
+        top: 0;
+        letft: 0;
+        background: var(--mainWhite);
+        color: var(--drakGrey);
+        font-size: 1.25rem;
+        text-align: center;
+        padding: .5rem;
+        width: 60px;
+        opacity: 0;
+        transition: var(--mainTransition);
+        border-bottom-right-radius: .5rem;
+    }
 
     @media (max-width: 599px) {
         & { padding: 0 1rem; grid-gap: .5rem 2rem; }

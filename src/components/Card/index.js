@@ -10,19 +10,24 @@ import { CardContainer } from "./card.styled.js";
 export function Card({cardItem}) {
     const web3Consumer = useContext(web3Context);
     const { handleAddtoCart, inCart } = web3Consumer;
-    if(!cardItem) return <Loading />
+    if(!cardItem) return <Loading />;
 
-    const filteredProjects = cardItem.map(item => {
+    const filteredProduct = cardItem.map(item => {
         let isInCart = false;
         if(inCart(item.id)) isInCart = true;
 
         return (
             <div key={item.id} className={isInCart ? "center card inCart" : "center card"}>
                 <img src={item.images[0]} alt={item.name} />
-                <h2>
-                    {/* maximum characters 20 characters */}
-                    {item.name}
-                </h2>
+                <div className="center main">
+                    <h2>
+                        {/* maximum characters 20 characters */}
+                        {item.name}
+                    </h2>
+                </div>
+                <div className="center price-tag">
+                    <small>${item.price}</small>
+                </div>
                 <Link to={`/products/${item.id}`}>
                     <button className="center features">features</button>
                 </Link>
@@ -37,7 +42,7 @@ export function Card({cardItem}) {
         )
     });
     
-    return <CardContainer className="center">{filteredProjects}</CardContainer>
+    return <CardContainer className="center">{filteredProduct}</CardContainer>
 }
 
 export default ErrorBoundary(Card)

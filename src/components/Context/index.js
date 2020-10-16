@@ -22,7 +22,8 @@ class Web3Provider extends Component {
             productCount: 0,
             selectValue: 'all',
 
-            carts: []
+            carts: [],
+            customSearchValue: '',
         }
     }
 
@@ -67,8 +68,12 @@ class Web3Provider extends Component {
         // Get all featured products
         const featuredProducts = this.featuredProducts(products);
 
+        // Get cart items
+        // const carts = this.getCartProduct(contract, web3, user);
+
         let isUserLoggedIn = localStorage.getItem('isLoggedIn');
         isUserLoggedIn = JSON.parse(isUserLoggedIn);
+
         if(isUserLoggedIn) {
             let userData = localStorage.getItem('userData');
             userData = JSON.parse(userData);
@@ -88,22 +93,38 @@ class Web3Provider extends Component {
         });
     }
 
-    // Get User Data
-    // getUserData = async (account, { contract, user } = this.state) => {
-    //     account ? await contract.methods.findUserByAddress(account).call()
-    //         : await contract.methods.findUserByAddress(user).call();
-    // }
+    // load all products
+    loadAllProducts = async (contract, web3, productCount) => {
+        let products = [];
 
-    // login user
-    login = userData => this.setState({ isLoggedIn: true, userData });
+        for(let i = 1; i <= productCount; i++) {
+            const currentProduct = await contract.methods.findProduct(i).call();
+            const { id, seller, details, price, featured } = currentProduct;
+            const product = await (await fetch(details)).json();
+
+            const userDetails = await contract.methods.findUserByAddress(seller).call();
+            const sellerName = (await (await fetch(userDetails.details)).json()).username;
+
+            const data = { 
+                ...product,
+                price: web3.utils.fromWei(price, 'ether'),
+                featured,
+                seller: sellerName,
+                sellerAddress: seller,
+                id, 
+            };
+            products = [...products, data];
+        }
+        return products;
+    }
 
     // Create new user account
-    createNewAccount = async hash => {
+    createNewAccount = async details => {
         try {
             const { contract, user, web3 } = this.state;
             console.log('submiting account details');
 
-            const reciept = await contract.methods.createNewAccount(hash).send({
+            const reciept = await contract.methods.createNewAccount(details).send({
                 from: user,
                 gas: web3.utils.toBN(180000)
             });
@@ -115,48 +136,51 @@ class Web3Provider extends Component {
     }
  
     // Update User profile
-    updateAccountDetails = async data => {
+    updateAccountDetails = async details => {
         const { contract, user, web3 } = this.state;
-        return contract.methods.updateAccountDetails(data).send({
+        return contract.methods.updateAccountDetails(details).send({
             from: user,
             gas: web3.utils.toBN(250000)
         });
     }
+
+    // find user by address
+    findUserByAddress = async (account, { contract } = this.state) => {
+        return await contract.methods.findUserByAddress(account).call();
+    }
+
+    // login user
+    login = userData => this.setState({ isLoggedIn: true, userData });
 
     // Create new products
-    createNewProduct = async productDetails => {
+    createNewProduct = async (details, price) => {
         const { contract, user, web3 } = this.state;
-        return await contract.methods.createNewProduct(productDetails).send({
+        return await contract.methods.createNewProduct(details, price).send({
             from: user,
             gas: web3.utils.toBN(250000)
         });
     }
 
-    // load all products
-    loadAllProducts = async (contract, web3, productCount) => {
-        let products = [];
-        for(let i = 1; i <= productCount; i++) {
-            const currentProduct = await contract.methods.findProduct(i).call();
-            const { _productDetails, _productId, _seller } = currentProduct;
-            const product = await (await fetch(_productDetails)).json();
-
-            const link = (await contract.methods.findUserByAddress(_seller).call())._hashID;
-            const seller = (await (await fetch(link)).json()).username;
-
-            const data = { 
-                ...product,
-                price: web3.utils.fromWei(product.price, 'ether'),
-                seller,
-                id: _productId, 
-            };
-            products = [...products, data];
-        }
-        return products;
+    // Update product
+    updateProduct = async data => {
+        const { contract, user, web3 } = this.state;
+        const { id, price, details } = data;
+        return await contract.methods.updateProduct(id, price, details).send({
+            from: user,
+            gas: web3.utils.toBN(250000)
+        });
     }
 
     // featured products
-    featuredProducts = async () => {
+    featuredProducts = async products => {
+        const featuredProducts = products.map(product => product.featured === true);
+        this.setState({ featuredProducts });
+    }
 
+    // Get cart product
+    getCartProduct = async (contract, user) => {
+        const carts = contract.methods.findCartProduct(user).call();
+        this.setState({ carts })
     }
 
     findProductById = async (id, { contract } = this.state) => {
@@ -187,14 +211,16 @@ class Web3Provider extends Component {
                 selectValue: currentValue, 
                 sortedProducts: products 
             });
-        } else {
-            const tempItem = products.filter(item => item.category === currentValue);
-            this.setState({selectValue: currentValue, sortedProducts: tempItem});
         }
+
+        const tempItem = products.filter(item => item.category === currentValue);
+        this.setState({selectValue: currentValue, sortedProducts: tempItem});
     }
 
-    handleCustomSearch = e => (value, { products } = this.state) => {
-        e.preventDefault();
+    handleCustomSearch = (e, { products } = this.state) => {
+        const value = e.currentTarget.value;
+        this.setState({ customSearchValue: value });
+        if(!value) return;
         if(value.includes('@')) {
             const data = value.replace('@', '');
             const searchBySeller = products.filter(product => product.seller.includes(data));
@@ -206,11 +232,13 @@ class Web3Provider extends Component {
         }
         const searchByCategory = products.filter(product => product.category.includes(value));
         const searchByName = products.filter(product => product.name.includes(value));
-        const sortedProducts = [...searchByName, ...searchByCategory];
+        const sortedProducts = Array.from(new Set([...searchByName, ...searchByCategory]));
         this.setState({ sortedProducts }, () => console.log(this.state.sortedProducts));
     }
 
+    // Add items to cart
     handleAddtoCart = (id, { products, carts } = this.state) => {
+        console.log(this.inCart(id))
         if(this.inCart(id)) return this.removeCartItem(id);
 
         const product = products.find(product => product.id === id);
@@ -243,18 +271,22 @@ class Web3Provider extends Component {
 
         const {
             createNewAccount, 
-            // getUserData, 
-            login,
-            createNewProduct,
             updateAccountDetails,
+            findUserByAddress,
+            login,
+
+            createNewProduct,
             findProductById,
+
+            getCartProduct,
+            inCart,
+            handleAddtoCart,
+            removeCartItem,
+
             getSlug,
             getCategory,
             handleSelectChange,
-            removeCartItem,
-            handleAddtoCart,
             handleQuantityChange,
-            inCart,
             handleCustomSearch
         } = this;
 
@@ -262,18 +294,22 @@ class Web3Provider extends Component {
             <web3Context.Provider value= {{
                 ...this.state,
                 createNewAccount, 
-                // getUserData, 
-                login,
-                createNewProduct,
                 updateAccountDetails,
+                findUserByAddress,
+                login,
+
+                createNewProduct,
                 findProductById,
+
+                getCartProduct,
+                inCart,
+                handleAddtoCart,
+                removeCartItem,
+
                 getSlug,
                 getCategory,
                 handleSelectChange,
-                removeCartItem,
-                handleAddtoCart,
                 handleQuantityChange,
-                inCart,
                 handleCustomSearch
             }}>
                 {this.props.children}

@@ -1,9 +1,7 @@
 import React, { useContext } from 'react';
-// import { Link } from "react-router-dom";
 import { Banner } from "../Banner";
 import { ErrorBoundary } from "../ErrorBoundary";
 import { web3Context } from "../Context";
-import { productContext } from "../Context/product";
 import { BackgroundStyle } from "../BackgroundStyle";
 import background from "../../assets/facilities/hero.jpeg";
 import { HeaderContainer } from "./Styles/home.styled";
@@ -11,10 +9,7 @@ import Card from '../Card';
 
 export function Home() {
     const web3Consumer = useContext(web3Context);
-    const productConsumer = useContext(productContext);
-
-    const { featuredProducts } = productConsumer;
-    const { userData, isLoggedIn } = web3Consumer;
+    const { userData, isLoggedIn, carts } = web3Consumer;
 
     let theme;
     if(isLoggedIn) theme = userData.encoded.preference.theme;
@@ -29,7 +24,7 @@ export function Home() {
                     <h2>featured products</h2>
                 </div>
             </HeaderContainer>
-            <Card cardItem={featuredProducts} />
+            <Card cardItem={carts} />
         </div>
     )
 }

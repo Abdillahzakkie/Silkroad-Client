@@ -6,7 +6,8 @@ export const SingleProductContainer = styled.div`
         grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
         grid-column-gap: 2.0rem;
         grid-row-gap: 1rem;
-        grid-template-rows: minmax(200px, 1fr);
+        grid-template-rows: minmax(225px, 1fr);
+        height: 225px;
         margin: 2rem;
         overflow: hidden;
     }

@@ -12,19 +12,19 @@ export function Login({ history }) {
     const web3Consumer = useContext(web3Context);
     const helperConsumer = useContext(helperContext);
     const { decryptData } = helperConsumer;
-    const { loading, login, isLoggedIn, getUserData } = web3Consumer;
+    const { loading, login, isLoggedIn, findUserByAddress, user } = web3Consumer;
 
     useEffect(() => {
        (async () => {
             try {
                 if(loading) return;
                 if(isLoggedIn) history.push('/my_account');
-                let response = await getUserData();
-                response = response._hashID;
+                let response = await findUserByAddress(user);
+                response = response.details;
                 setLink(() => response);
             } catch (error) { console.log('User does not exit') }
        })();
-    }, [loading, getUserData, isLoggedIn, history]);
+    }, [history, loading, findUserByAddress, isLoggedIn, user]);
 
     const handleSubmit = async e => {
         e.preventDefault();

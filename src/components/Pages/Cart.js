@@ -10,11 +10,10 @@ function Cart() {
     const { carts, removeCartItem, handleSubmit, handleQuantityChange } = web3Consumer;
 
     if(!carts) return <Loading />;
-    console.log(carts.length);
-    console.log(carts)
+
     const cartContainer = carts.map(cart => {
         const image = cart.images[0];
-        const price = cart.price.toFixed(2) * cart.quantity.toFixed(2);
+        const price = Number(cart.price).toFixed(2) * Number(cart.quantity).toFixed(2);
 
         return (
             <section key={cart.id} className='center cart-list-item'>
@@ -44,10 +43,10 @@ function Cart() {
         )
     });
 
-    const priceList = carts.map(cart => cart.price.toFixed(2) * cart.quantity.toFixed(2));
+    const priceList = carts.map(cart => Number(cart.price).toFixed(2) * Number(cart.quantity).toFixed(2));
     const totalPrice = priceList.reduce((curr, next) => {
         curr = Number(curr) + Number(next)
-        return curr.toFixed(2)
+        return curr.toFixed(2);
     }, [0]);
 
     return (

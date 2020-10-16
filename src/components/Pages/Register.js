@@ -47,8 +47,8 @@ export function Register({ history }) {
                 image: `https://ipfs.io/ipfs/${imageResponse.path}` 
             }
             const response = await ipfs.add(JSON.stringify(data));
-            const link = `https://ipfs.io/ipfs/${response.path}`;
-            await createNewAccount(link);
+            const details = `https://ipfs.io/ipfs/${response.path}`;
+            await createNewAccount(details);
             history.push('/login');
 
         } catch (error) { console.log(error) }
